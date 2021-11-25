@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\SPP;
 
 class SPPController extends Controller
 {
@@ -13,7 +14,8 @@ class SPPController extends Controller
      */
     public function index()
     {
-        return view('layout.spp.index');
+        $spp = spp::all();
+        return view('layout.spp.index', compact('spp'));
     }
 
     /**

@@ -23,8 +23,11 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/datasiswa', 'DataSiswaController@index')->name('datasiswa');
+Route::get('/datasiswa/create', 'DataSiswaController@create');
+Route::get('/datasiswa/delete/{id}', 'DataSiswaController@destroy');
+Route::resource('datasiswa', DataSiswaController::class);
 
-Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+Route::get('/dashboard', 'Dashboard@index')->name('dashboard');
 
 Route::get('/kelas', 'kelasController@index')->name('kelas');
 
