@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Siswa;
+use App\Kelas;
 
 class DataSiswaController extends Controller
 {
@@ -15,7 +16,8 @@ class DataSiswaController extends Controller
     public function index()
     {
         $siswa = Siswa::get();
-        return view('layout.datasiswa.index', compact('siswa'));
+        $kelas = Kelas::get();
+        return view('layout.datasiswa.index', compact('siswa', 'kelas'));
     }
 
     /**
@@ -25,7 +27,8 @@ class DataSiswaController extends Controller
      */
     public function create()
     {
-        //
+        $kelas = Kelas::get();
+        return view('layout.datasiswa.create', compact('kelas'));
     }
 
     /**
@@ -36,7 +39,16 @@ class DataSiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        Siswa::create([
+            'nis' => $data['nis'],
+            'nama_siswa' => $data['nama'],
+            'jenis_kelamin' => $data['jenis_kelamin'],
+            'alamat' => $data['alamat'],
+            'id_kelas' => $data['kelas'],
+            'status_active' => 'ACTIVE'
+        ]);
+        return redirect()->route('datasiswa.index');
     }
 
     /**
@@ -48,6 +60,12 @@ class DataSiswaController extends Controller
     public function show($id)
     {
         //
+        $kelas = Kelas::all();
+        $data = Siswa::where('id_siswa', '=', $id)->get();
+        return view('layout.datasiswa.show', [
+            'kelas' => $kelas,
+            'data' => $data[0],
+        ]);
     }
 
     /**
@@ -59,6 +77,9 @@ class DataSiswaController extends Controller
     public function edit($id)
     {
         //
+        $kelas = Kelas::all();
+        $data = Siswa::get();
+        return view('layout.datasiswa.edit', compact('kelas', 'data'));
     }
 
     /**
@@ -71,6 +92,18 @@ class DataSiswaController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $siswa = Siswa::where('id_siswa', '=', $id);
+        $data = $request->all();
+        $siswa->update([
+            'nis' => $data['nis'],
+            'nama_siswa' => $data['nama'],
+            'jenis_kelamin' => $data['jenis_kelamin'],
+            'alamat' => $data['alamat'],
+            'id_kelas' => $data['kelas'],
+            'status_active' => $data['status'],
+        ]);
+        return redirect()->route('datasiswa.index');
+
     }
 
     /**
@@ -81,6 +114,8 @@ class DataSiswaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = Siswa::where('id_siswa', '=', $id);
+        $data->delete();
+        return back();
     }
 }

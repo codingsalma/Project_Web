@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\PembayaranSPP;
 
 class PembayaranSPPController extends Controller
 {
@@ -13,7 +14,10 @@ class PembayaranSPPController extends Controller
      */
     public function index()
     {
-        return view('layout.pembayaranspp.index');
+        $pembayaranspp = pembayaranspp::all();
+        return view('layout.pembayaranspp.index', [
+            'pembayaranspp' => $pembayaranspp,
+        ]);
     }
 
     /**

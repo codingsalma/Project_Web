@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Kelas;
 
 class kelasController extends Controller
 {
@@ -13,7 +14,8 @@ class kelasController extends Controller
      */
     public function index()
     {
-        return view('layout.kelas.index');
+        $kelas = Kelas::get();
+        return view('layout.kelas.index', compact('kelas'));
     }
 
     /**
